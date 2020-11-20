@@ -9,8 +9,17 @@ const { PORT } = process.env;
 connect();
 const app = express();
 
-const { connectSpreadsheet } = require('./utils/spreadsheet')
+const {
+  phoneNumbers,
+  rawNames,
+  stickersTitles,
+  collectionByPhone,
+  isRegistered,
+} = require('./utils/spreadsheet');
 
-connectSpreadsheet()
+app.get('/', async (req, res) => {
+  const phones = await isRegistered('3017014708');
+  res.json(phones);
+});
 
-app.listen( PORT, () => log(`Listen on http://localhost:${PORT}`) )
+app.listen(PORT, () => log(`Listen on http://localhost:${PORT}`));
