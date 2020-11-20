@@ -3,296 +3,72 @@ const { GoogleSpreadsheet } = require('google-spreadsheet');
 const { SHEET_ID, GOOGLE_API_KEY } = process.env;
 
 const credentials = {
-    type: "service_account",
-    project_id: "cromona-mvp",
-    private_key_id: "9630dec11b75b0ccab300f9718bdff9e6a807d7e",
-    private_key: "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCipSgoK9uZ0gAW\ntSEe6Z1QKpNkw+14GR9KhR+JyRkVFtcyXyjM3BBUiI89wzE7l5zKcXgIkETtSkEZ\n7rR1lS1ItL5ZVHqx7tCfC0vzkvK5dWf8mL+syZDMg9WAmeK7dwlFLLjKSFmFJulP\np65335HPJO7K64rF6KWEPasl+Az385C8w2a74l7c4VCaRKXsAh5VTExRYdwCXYTE\nThA9cUB8IWTHgcxMe1Ym/7++jnD/E6AAxZ1wniAlSG6LNSJKN5GwawTHi3GOVcCP\nVc3PAFb1XE6o4po1h/ETyVVg6YbszW2l5PGBvAeDz2ahPP7MWnYCzP6NlawM8iY+\n44Wp7qBXAgMBAAECggEANjWs/kKr9YdwfyEM8oQz6jnemanSFwLskoZvXhnYUdak\nkEX2T92TVdGUSKYr3Sxp1nHea6BGUP68VxvgKwa3KrIPda+6G185SqFVxc/3NchD\nigYRcNJYAEp6mVvxHcGNpfBDgSx/JemzvthpRswOCchKDPlX7iHeNQbm6gdUrzmG\n5p44Dy4mhcjGWKOAJxm4zwzIQp8g+MITqlur8LWCPOGsKJ0QfZJuHsf9bnURtyTC\ngxqFeSP7KsMJZmY+D0opj5UpKf9u6ADMfbCYhcaRNdVBYafbJIDiNkPMj8fZKOF+\nLDtsgB9QgPcKsx7wASG4yDsf99g2r5qJN9FYsqLRkQKBgQDkN03ZDBSwVdK7Vzdo\ndd8KLaox4br2qoPqyhU+/iJWK1wM9QijeUvrmgKlDmVdJFQpmN3wDRgv18QFNuGa\nD8VMNey89YHqIFeE9YmnMu4IljP3gszyY/SN7ctach5jk0jDMm7X0NnpITfQtnjp\nd7JrdwgPl/2pFUuO7ZuR9rW+JwKBgQC2cjzH71tq9s0XdpvOpnP+KlhjbAImhhbz\nBlSQ8sjsmKYoCBakZW5L0zHILovKdQhaATRezlle7Co1Z+cGhRA1Uek+YNvOPDSM\nSRCn8bxgkVkFjRkn/8BM95HzIeMBiprDQ9HJdoVrg+kqLPaYCkHDm2MMQlCdV4P8\nG+KceeaaUQKBgBMVLMVBZVl5U62mlVN+x6+qMdkJ7wBBMdaoHy6tQWHDLmdG9fn1\nYovIzP/QPFmVeBQiXCx+a89UU2e8NxES0ISW3bzPKpXRLoBHp8L7VzwQkzfXEBwU\nj5Zuk9p0QGZDIopv5STWqeH8jRY+q82Z3KlvwpTLOMKyrSa+Z4vE/V1xAoGAX7km\nPLxP2Zot1v6rFsxslVEAWQGlSzMVPWL34akQVFpu6xf7UTvKl8vyFZaeT5YB0L9L\nC+b2KwB70NN3+gq8i00ztD+7c8RQyb3YGFWTwZLhAzGZnkvoSDmogMkpwnhHZOXj\nXvFpZRSrtC4tH25aPNf9KsRsaXEuVYsH5ZNrs1ECgYBRV9viNtQbGiSx8xmlwYwZ\nDmL8wYLgN8s9URzvYv5nfG/XaASK2qrH57ch+BbKTjvHu0CKBoq53uszxX4aIes5\nF1Ex5DYUaJCf+Tx/blIvGuZxKoX5nNFlxjyyv0x4ES8PvzuUoIBqDG1doU1NzQep\naYj9YTCWQzd7XB3X1rngDQ==\n-----END PRIVATE KEY-----\n",
-    client_email: "cromona-mvp@cromona-mvp.iam.gserviceaccount.com",
-    client_id: "112712058256833614076",
-    auth_uri: "https://accounts.google.com/o/oauth2/auth",
-    token_uri: "https://oauth2.googleapis.com/token",
-    auth_provider_x509_cert_url: "https://www.googleapis.com/oauth2/v1/certs",
-    client_x509_cert_url: "https://www.googleapis.com/robot/v1/metadata/x509/cromona-mvp%40cromona-mvp.iam.gserviceaccount.com"
+  type: 'service_account',
+  project_id: 'cromona-mvp',
+  private_key_id: '9630dec11b75b0ccab300f9718bdff9e6a807d7e',
+  private_key:
+    '-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCipSgoK9uZ0gAW\ntSEe6Z1QKpNkw+14GR9KhR+JyRkVFtcyXyjM3BBUiI89wzE7l5zKcXgIkETtSkEZ\n7rR1lS1ItL5ZVHqx7tCfC0vzkvK5dWf8mL+syZDMg9WAmeK7dwlFLLjKSFmFJulP\np65335HPJO7K64rF6KWEPasl+Az385C8w2a74l7c4VCaRKXsAh5VTExRYdwCXYTE\nThA9cUB8IWTHgcxMe1Ym/7++jnD/E6AAxZ1wniAlSG6LNSJKN5GwawTHi3GOVcCP\nVc3PAFb1XE6o4po1h/ETyVVg6YbszW2l5PGBvAeDz2ahPP7MWnYCzP6NlawM8iY+\n44Wp7qBXAgMBAAECggEANjWs/kKr9YdwfyEM8oQz6jnemanSFwLskoZvXhnYUdak\nkEX2T92TVdGUSKYr3Sxp1nHea6BGUP68VxvgKwa3KrIPda+6G185SqFVxc/3NchD\nigYRcNJYAEp6mVvxHcGNpfBDgSx/JemzvthpRswOCchKDPlX7iHeNQbm6gdUrzmG\n5p44Dy4mhcjGWKOAJxm4zwzIQp8g+MITqlur8LWCPOGsKJ0QfZJuHsf9bnURtyTC\ngxqFeSP7KsMJZmY+D0opj5UpKf9u6ADMfbCYhcaRNdVBYafbJIDiNkPMj8fZKOF+\nLDtsgB9QgPcKsx7wASG4yDsf99g2r5qJN9FYsqLRkQKBgQDkN03ZDBSwVdK7Vzdo\ndd8KLaox4br2qoPqyhU+/iJWK1wM9QijeUvrmgKlDmVdJFQpmN3wDRgv18QFNuGa\nD8VMNey89YHqIFeE9YmnMu4IljP3gszyY/SN7ctach5jk0jDMm7X0NnpITfQtnjp\nd7JrdwgPl/2pFUuO7ZuR9rW+JwKBgQC2cjzH71tq9s0XdpvOpnP+KlhjbAImhhbz\nBlSQ8sjsmKYoCBakZW5L0zHILovKdQhaATRezlle7Co1Z+cGhRA1Uek+YNvOPDSM\nSRCn8bxgkVkFjRkn/8BM95HzIeMBiprDQ9HJdoVrg+kqLPaYCkHDm2MMQlCdV4P8\nG+KceeaaUQKBgBMVLMVBZVl5U62mlVN+x6+qMdkJ7wBBMdaoHy6tQWHDLmdG9fn1\nYovIzP/QPFmVeBQiXCx+a89UU2e8NxES0ISW3bzPKpXRLoBHp8L7VzwQkzfXEBwU\nj5Zuk9p0QGZDIopv5STWqeH8jRY+q82Z3KlvwpTLOMKyrSa+Z4vE/V1xAoGAX7km\nPLxP2Zot1v6rFsxslVEAWQGlSzMVPWL34akQVFpu6xf7UTvKl8vyFZaeT5YB0L9L\nC+b2KwB70NN3+gq8i00ztD+7c8RQyb3YGFWTwZLhAzGZnkvoSDmogMkpwnhHZOXj\nXvFpZRSrtC4tH25aPNf9KsRsaXEuVYsH5ZNrs1ECgYBRV9viNtQbGiSx8xmlwYwZ\nDmL8wYLgN8s9URzvYv5nfG/XaASK2qrH57ch+BbKTjvHu0CKBoq53uszxX4aIes5\nF1Ex5DYUaJCf+Tx/blIvGuZxKoX5nNFlxjyyv0x4ES8PvzuUoIBqDG1doU1NzQep\naYj9YTCWQzd7XB3X1rngDQ==\n-----END PRIVATE KEY-----\n',
+  client_email: 'cromona-mvp@cromona-mvp.iam.gserviceaccount.com',
+  client_id: '112712058256833614076',
+  auth_uri: 'https://accounts.google.com/o/oauth2/auth',
+  token_uri: 'https://oauth2.googleapis.com/token',
+  auth_provider_x509_cert_url: 'https://www.googleapis.com/oauth2/v1/certs',
+  client_x509_cert_url:
+    'https://www.googleapis.com/robot/v1/metadata/x509/cromona-mvp%40cromona-mvp.iam.gserviceaccount.com',
+};
+
+const spreadsheetData = async () => {
+  try {
+    const doc = new GoogleSpreadsheet(SHEET_ID);
+    await doc.useServiceAccountAuth(credentials);
+    await doc.loadInfo();
+    const sheet = doc.sheetsByIndex[0];
+    const table = await sheet.getRows();
+    return table;
+  } catch (e) {
+    console.log(e);
   }
-  
-const stickers = [
-    "Colombia Un país mega diverso [1 Cerros de Mavecure]",
-    "Colombia Un país mega diverso [2 Colombia, segundo país en plantas]",
-    "Colombia Un país mega diverso [3 Colombia, primer país en aves y orquídeas]",
-"Colombia Un país mega diverso [4 Colombia, tercer país en palmas y reptiles]",
-"Aventura marina [5 Avistamiento de ballenas]",
-"Aventura marina [6 Tiburón ballena]",
-"Aventura marina [7 Caminatas por los senderos]",
-"Aventura marina [8 Serpientes terrestres]",
-"Aventura marina [9 Mono cariblanco]",
-"Aventura marina [10 Antiguo penal en Gorgona]",
-"Aventura marina [11 Tiburón aletiblanco]",
-"Aventura marina [12 Tiburón solrayo]",
-"Aventura marina [13 Buceo con tiburones]",
-"Aventura marina [14 Barracuda]",
-"Aventura marina [15 Piquero de Nazca]",
-"Aventura marina [16 Lagarto de Malpelo]",
-"Aventura marina [17 Pez murciélago de labios rosas]",
-"Aventura marina [18 Manta gigante]",
-"Aventura marina [19 Surf en el Pacífico]",
-"Aventura marina [20 Ballena jorobada]",
-"Aventura marina [21 Guaco manglero]",
-"Aventura marina [22 Sendero Estero Grande]",
-"Aventura marina [23 Ranas venenosas]",
-"Aventura marina [24 Tortuga golfina]",
-"Aventura marina [25 Cangrejo carretero rojo]",
-"Aventura marina [26 Lagunas costeras]",
-"Aventura marina [27 Deportes náuticos en el Caribe]",
-"Aventura marina [28 Pelícano]",
-"Aventura marina [29 Gaviota]",
-"Aventura marina [30 Pez León]",
-"Aventura marina [31 Laguna de Tintipán]",
-"Aventura marina [32 Mangles]",
-"Aventura marina [33 Desove de coral]",
-"Aventura marina [34 Tortugas marinas]",
-"Aventura marina [35 Langosta espinosa]",
-"Aventura marina [36 Tiburón nodriza]",
-"Aventura marina [37 Esponja de barril gigante]",
-"Aventura marina [38 Estrellas de mar]",
-"Aventura marina [39 Cherna]",
-"Aventura marina [40 Corales duros y blandos]",
-"Aventura marina [41 Oso hormiguero]",
-"Aventura marina [42 Senderos acuáticos]",
-"Aventura marina [43 Manatí del Caribe]",
-"Aventura marina [44 Pato cuervo o cormorán]",
-"Aventura marina [45 Palafitos]",
-"Aventura marina [46 Caimán aguja]",
-"Aventura marina [47 Manglares]",
-"Aventura marina [48 Coral cerebro]",
-"Aventura marina [49 Delfines]",
-"Aventura marina [50 Pez Loro]",
-"Aventura marina [51 Mono aullador]",
-"Aventura marina [52 Quebradas del Parque Tayrona]",
-"Aventura marina [53 Pueblito, lugar sagrado en Tayrona]",
-"Aventura marina [54 Tayrona, territorio ancestral]",
-"Aventura marina [55 Cayo Cangrejo o Crab Cay]",
-"Aventura marina [56 Canotaje]",
-"Aventura marina [57 Cangrejo negro]",
-"Aventura marina [58 Fragata]",
-"Aventura marina [59 Cayos tres hermanos o Three Brothers Cay]",
-"Aventura marina [60 Caracol pala]",
-"Aventura marina [61 Ecosistemas valiosos]",
-"Aventura en las alturas [62 Paisajes de alta montaña]",
-"Aventura en las alturas [63 Ranas]",
-"Aventura en las alturas [64 Chillón común]",
-"Aventura en las alturas [65 Gavilán aliancho]",
-"Aventura en las alturas [66 Colibrí pico de espada]",
-"Aventura en las alturas [67 Pava andina]",
-"Aventura en las alturas [68 Venado común]",
-"Aventura en las alturas [69 Clorofonia verdeazul]",
-"Aventura en las alturas [70 Lagunas]",
-"Aventura en las alturas [71 Paramero esmeraldino o calzadito reluciente]",
-"Aventura en las alturas [72 Orquídea estrella]",
-"Aventura en las alturas [73 Caminata al volcán Puracé]",
-"Aventura en las alturas [74 Termales de San Juan]",
-"Aventura en las alturas [75 Frailejones]",
-"Aventura en las alturas [76 Senderismo]",
-"Aventura en las alturas [77 Loro orejiamarillo]",
-"Aventura en las alturas [78 Cóndor de los Andes]",
-"Aventura en las alturas [79 Laguna del Otún]",
-"Aventura en las alturas [80 Pato de los torrentes]",
-"Aventura en las alturas [81 Valle del Cocora]",
-"Aventura en las alturas [82 Volcán de Santa Isabel]",
-"Aventura en las alturas [83 Trogón]",
-"Aventura en las alturas [84 Venado de cola blanca]",
-"Aventura en las alturas [85 Frailejón]",
-"Aventura en las alturas [86 Rana dorada]",
-"Aventura en las alturas [87 Perico aliamarillo]",
-"Aventura en las alturas [88 Orquídea Chingaza]",
-"Aventura en las alturas [89 Senderismo en el Parque Chingazá]",
-"Aventura en las alturas [90 Rana de muslos naranja]",
-"Aventura en las alturas [91 Laguna Sabanas]",
-"Aventura en las alturas [92 Caracara o Carancho]",
-"Aventura en las alturas [93 Orquídea tigre o del páramo]",
-"Aventura en las alturas [94 Piñuelo o cardo de agua]",
-"Aventura en las alturas [95 Roble de tierra fría]",
-"Aventura en las alturas [96 Uva de monte]",
-"Aventura en las alturas [97 Lagarto collarejo]",
-"Aventura en las alturas [98 Paujil copete de piedra]",
-"Aventura en las alturas [99 Falsa coral]",
-"Aventura en las alturas [100 Colibrí paramuno]",
-"Aventura en las alturas [101 Laguna de la Plaza]",
-"Aventura en las alturas [102 Puma]",
-"Aventura en las alturas [103 Senderismo en el Cocuy]",
-"Aventura sabana y desértica [104 Observación de estrellas en Tatacoa]",
-"Aventura sabana y desértica [105 Pigua]",
-"Aventura sabana y desértica [106 Serpientes cascabel]",
-"Aventura sabana y desértica [107 Arañas viudas]",
-"Aventura sabana y desértica [108 Cactus]",
-"Aventura sabana y desértica [109 Garza morena]",
-"Aventura sabana y desértica [110 Bichofué]",
-"Aventura sabana y desértica [111 Méndano de Alewoluu]",
-"Aventura sabana y desértica [112 Piedras de Ipanalu y Siapana]",
-"Aventura sabana y desértica [113 Indígenas Wayúu]",
-"Aventura sabana y desértica [114 Indio desnudo]",
-"Aventura sabana y desértica [115 Picos nevados]",
-"Aventura sabana y desértica [116 Nieves perpetuas]",
-"Aventura sabana y desértica [117 Páramo]",
-"Aventura sabana y desértica [118 Bosque subandino y bosque andino]",
-"Aventura sabana y desértica [119 Selva húmeda tropical]",
-"Aventura sabana y desértica [120 Bosque seco tropical]",
-"Aventura sabana y desértica [121 Áreas marinas y submarinas]",
-"Aventura sabana y desértica [122 Colombia es un 45% mar]",
-"Aventura sabana y desértica [123 Cabo de la Vela]",
-"Aventura sabana y desértica [124 Anchipielago de San Andres, Providencia y Santa Catalina]",
-"Aventura sabana y desértica [125 Urabá-Darién]",
-"Aventura sabana y desértica [126 Chocó Biogeográfico]",
-"Aventura sabana y desértica [127 Malpelo, en línea con la Antártida]",
-"Aventura sabana y desértica [128 Páramo de Sumapaz]",
-"Aventura sabana y desértica [129 Orinoquía]",
-"Aventura sabana y desértica [130 Sanquianga]",
-"Aventura sabana y desértica [131 Macizo colombiano]",
-"Aventura sabana y desértica [132 Riqueza cultural de la Amazonía]",
-"Aventura sabana y desértica [133 Río Amazonas]",
-"Aventura sabana y desértica [134 Cardenal guajiro]",
-"Aventura sabana y desértica [135 Flamenco rosado]",
-"Aventura sabana y desértica [136 Pato cuchara o espátula rosada]",
-"Aventura sabana y desértica [137 Laguna Grande y Navío Quebrado]",
-"Aventura sabana y desértica [138 Babilla o caimán de anteojos]",
-"Aventura sabana y desértica [139 Recorrido por los llanos]",
-"Aventura sabana y desértica [140 Hoacín o chenchena]",
-"Aventura sabana y desértica [141 Oso hormiguero gigante]",
-"Aventura sabana y desértica [142 Águila pescadora]",
-"Aventura sabana y desértica [143 Chigüiro o capibara]",
-"Aventura sabana y desértica [144 Garzón soldado]",
-"Aventura sabana y desértica [145 Trepatroncos pico de lanza]",
-"Aventura sabana y desértica [146 Caño cristales]",
-"Aventura sabana y desértica [147 Ninfa de las aguas]",
-"Aventura sabana y desértica [148 Monos capuchinos]",
-"Aventura sabana y desértica [149 Tángara goteada]",
-"Aventura sabana y desértica [150 Caimán del Orinoco]",
-"Aventura sabana y desértica [151 Petroglifos en la Sierra de la Macarena]",
-"Aventura sabana y desértica [152 Danta]",
-"Aventura sabana y desértica [153 Maipures]",
-"Aventura sabana y desértica [154 Pictografías]",
-"Aventura sabana y desértica [155 Ganso del Orinoco]",
-"Aventura sabana y desértica [156 Arawana]",
-"Aventura sabana y desértica [157 Morichal]",
-"Aventura sabana y desértica [158 Nutria gigante]",
-"Aventura en los bosques [159 Guacamayas]",
-"Aventura en los bosques [160 Loto gigante]",
-"Aventura en los bosques [161 Tití pielroja o leoncito]",
-"Aventura en los bosques [162 Comunidades indígenas]",
-"Aventura en los bosques [163 Mono volador o huaco negro]",
-"Aventura en los bosques [164 Los pulsos del río]",
-"Aventura en los bosques [165 Delfín rosado]",
-"Aventura en los bosques [166 Arañas]",
-"Aventura en los bosques [167 Cueva del Indio]",
-"Aventura en los bosques [168 Mariposa 88]",
-"Aventura en los bosques [169 Guácharos]",
-"Aventura en los bosques [170 Lora carirroja o cotorra montañera]",
-"Aventura en los bosques [171 Cueva de los Guácharos]",
-"Aventura en los bosques [172 Río Suaza]",
-"Aventura en los bosques [173 Cernícalo]",
-"Aventura en los bosques [174 Río Anchicayá]",
-"Aventura en los bosques [175 Gallito de roca]",
-"Aventura en los bosques [176 Rana venenosa de Lehmann]",
-"Aventura en los bosques [177 Pico de Loro]",
-"Aventura en los bosques [178 Ardilla de cola roja]",
-"Aventura en los bosques [179 Escarabajos]",
-"Aventura en los bosques [180 Senderismo]",
-"Aventura en los bosques [181 Mico de noche andino]",
-"Aventura en los bosques [182 Zorro plateado]",
-"Aventura en los bosques [183 Mariposa]",
-"Aventura en los bosques [184 Tucanete culirrojo]",
-"Aventura en los bosques [185 Pava caucana]",Aventura en los bosques [186 Palma de cera cafetera]",
-"Aventura en los bosques [187 Cascadas de Tatamá]",
-"Aventura en los bosques [188 Mariposa]",
-"Aventura en los bosques [189 Oso andino o de anteojos]",
-"Aventura en los bosques [190 Cotorra carirrosada]",
-"Aventura en los bosques [191 Águila crestada]",
-"Aventura en los bosques [192 Anolis de rueda]",
-"Aventura en los bosques [193 Vía ferreta]",
-"Aventura en los bosques [194 Rafting]",
-"Aventura en los bosques [195 Playa Manantial]",
-"Aventura en los bosques [196 Canopy]",
-"Aventura en los bosques [197 Mariposa blanca listada]",
-"Aventura en los bosques [198 Torito dorsiblanco]",
-"Aventura en los bosques [199 Espeología]",
-"Aventura en los bosques [200 Tángara multicolor]",
-"Aventura en los bosques [201 Orquídeas]",
-"Aventura en los bosques [202 Tití]",
-"Aventura en los bosques [203 Sapo narigudo]",
-"Aventura en los bosques [204 Cacique candela]",
-"Aventura en los bosques [205 Perezoso de los dedos]",
-"Aventura en los bosques [206 Flor tomate y cebolla]",
-"Aventura en los bosques [207 Hongos de copa rosada]",
-"Aventura en los bosques [208 Río Atrato]",
-"Aventura en los bosques [209 Águila arpía]",
-    "Aventura en los bosques [210 Marimondas]",
-    "Aventura en los bosques [211 Cascada El Tulipo]",
-    "Aventura en los bosques [212 Guagua]",
-    "Aventura en los bosques [213 Camino de Lengerke Zapatoca-San Vicente del Chucurrí]",
-    "Aventura en los bosques [214 Tucán pechiazul]",
-    "Aventura en los bosques [215 Armadillo de nueve bandas]",
-    "Aventura en los bosques [216 Colibrí del roble]",
-    "Aventura en los bosques [217 Cusumbo o coatí andino]",
-    "Aventura en los bosques [218 Grisón o huroncito]",
-    "Aventura en los bosques [219 Tángara encachupada]",
-    "Aventura en los bosques [220 Toche o turpial montañero]",
-    "Aventura en los bosques [221 Carriquí verdiamarillo]",
-    "Aventura en los bosques [222 Carpintero habado]",
-    "Aventura en los bosques [223 Los Estoraques]",
-    "Aventura en los bosques [224 Platanillo]",
-    "Aventura arqueológica [225 Tigrillo]",
-    "Aventura arqueológica [226 Indígenas arhuacos]",
-    "Aventura arqueológica [227 Chavarria]",
-    "Aventura arqueológica [228 Ciudad perdida o Teyuna]",
-    "Aventura arqueológica [229 Indígenas kogui]",
-    "Aventura arqueológica [230 Sendero en piedra]",
-    "Aventura arqueológica [231 Puerco espín]",
-    "Aventura arqueológica [232 Murciélagos en Chiribiquete]",
-    "Aventura arqueológica [233 Pictografías de Chiribiquete]",
-    "Aventura arqueológica [234 Imponentes tepuyes]",
-    "Aventura arqueológica [235 Río de varios colores]",
-    "Aventura arqueológica [236 Colibrí esmeralda]",
-    "Aventura arqueológica [237 Mariposa]",
-    "Aventura arqueológica [238 Jaguar]",
-    "Aventura arqueológica [239 Estrecho del Magdalena]",
-    "Aventura arqueológica [240 Museo Arqueológico de San Agustín]",
-    "Aventura arqueológica [241 Cascada de los Bordones]",
-    "Aventura arqueológica [242 Búho rayado]",
-    "Aventura arqueológica [243 Parque Arqueológico Alto de los Ídolos y Alto de las Piedras]",
-    "Aventura arqueológica [244 Fuente de Lavapatas]",
-    "Aventura arqueológica [245 Guatín o ñeque]",
-    "Aventura arqueológica [246 Figura del águila]",
-    "Aventura arqueológica [247 Pinturas en los hipogeos]",
-    "Aventura arqueológica [248 Escaleras de los hipogeos]",
-    "Aventura arqueológica [249 Hipogeos]",
-    "Aventura arqueológica [250 Urna funeraria]",
-];
+};
 
-const connectSpreadsheet = async () => {
-    try {
+const phoneNumbers = async () => {
+  const table = await spreadsheetData();
+  return table.map((row) => row['Número de whatsapp']);
+};
 
-        const doc = new GoogleSpreadsheet(SHEET_ID);
+const rawNames = async () => {
+  const table = await spreadsheetData();
+  return table.map((row) => row['Nombre']);
+};
 
-        await doc.useServiceAccountAuth(credentials)
+const stickersTitles = async () => {
+  const table = await spreadsheetData();
+  const firstSticker = 'Colombia Un país mega diverso [1 Cerros de Mavecure]';
+  const indexFirstSticker = Object.keys(table[0]).indexOf(firstSticker);
+  const lastSticker = 'Aventura arqueológica [250 Urna funeraria]';
+  const indexLastSticker = Object.keys(table[0]).indexOf(lastSticker);
+  const titles = Object.keys(table[0]).slice(indexFirstSticker, indexLastSticker + 1);
+  return titles;
+};
 
-        await doc.loadInfo();
-        const sheet = doc.sheetsByIndex[0];
-        const table = await sheet.getRows()
-        
-        const phoneNumbers = table.map( (row) => {
-            return row["Número de whatsapp"]
-        });
-        
-        const rawNames = table.map( (row) => {
-            return row["Nombre"]
-        });
+const collectionByPhone = async (phoneNumber) => {
+  const table = await spreadsheetData();
+  const phones = await phoneNumbers();
+  const stickers = await stickersTitles();
+  const userIndex = phones.indexOf(phoneNumber);
+  const userRow = table[userIndex];
+  const collection = stickers.map((sticker) => userRow[sticker]);
+  return collection;
+};
 
-        console.log(Object.keys(table[0]));
-
-    } catch (e) {
-        console.log(e);
-    }
-}
+const isRegistered = async (phoneNumber) => {
+  const phones = await phoneNumbers();
+  return phones.includes(phoneNumber);
+};
 
 module.exports = {
-    connectSpreadsheet,
-}
+  phoneNumbers,
+  rawNames,
+  stickersTitles,
+  collectionByPhone,
+  isRegistered,
+};
