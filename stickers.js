@@ -1,24 +1,7 @@
-const { GoogleSpreadsheet } = require('google-spreadsheet');
-
-const { SHEET_ID, GOOGLE_API_KEY } = process.env;
-
-const credentials = {
-    type: "service_account",
-    project_id: "cromona-mvp",
-    private_key_id: "9630dec11b75b0ccab300f9718bdff9e6a807d7e",
-    private_key: "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCipSgoK9uZ0gAW\ntSEe6Z1QKpNkw+14GR9KhR+JyRkVFtcyXyjM3BBUiI89wzE7l5zKcXgIkETtSkEZ\n7rR1lS1ItL5ZVHqx7tCfC0vzkvK5dWf8mL+syZDMg9WAmeK7dwlFLLjKSFmFJulP\np65335HPJO7K64rF6KWEPasl+Az385C8w2a74l7c4VCaRKXsAh5VTExRYdwCXYTE\nThA9cUB8IWTHgcxMe1Ym/7++jnD/E6AAxZ1wniAlSG6LNSJKN5GwawTHi3GOVcCP\nVc3PAFb1XE6o4po1h/ETyVVg6YbszW2l5PGBvAeDz2ahPP7MWnYCzP6NlawM8iY+\n44Wp7qBXAgMBAAECggEANjWs/kKr9YdwfyEM8oQz6jnemanSFwLskoZvXhnYUdak\nkEX2T92TVdGUSKYr3Sxp1nHea6BGUP68VxvgKwa3KrIPda+6G185SqFVxc/3NchD\nigYRcNJYAEp6mVvxHcGNpfBDgSx/JemzvthpRswOCchKDPlX7iHeNQbm6gdUrzmG\n5p44Dy4mhcjGWKOAJxm4zwzIQp8g+MITqlur8LWCPOGsKJ0QfZJuHsf9bnURtyTC\ngxqFeSP7KsMJZmY+D0opj5UpKf9u6ADMfbCYhcaRNdVBYafbJIDiNkPMj8fZKOF+\nLDtsgB9QgPcKsx7wASG4yDsf99g2r5qJN9FYsqLRkQKBgQDkN03ZDBSwVdK7Vzdo\ndd8KLaox4br2qoPqyhU+/iJWK1wM9QijeUvrmgKlDmVdJFQpmN3wDRgv18QFNuGa\nD8VMNey89YHqIFeE9YmnMu4IljP3gszyY/SN7ctach5jk0jDMm7X0NnpITfQtnjp\nd7JrdwgPl/2pFUuO7ZuR9rW+JwKBgQC2cjzH71tq9s0XdpvOpnP+KlhjbAImhhbz\nBlSQ8sjsmKYoCBakZW5L0zHILovKdQhaATRezlle7Co1Z+cGhRA1Uek+YNvOPDSM\nSRCn8bxgkVkFjRkn/8BM95HzIeMBiprDQ9HJdoVrg+kqLPaYCkHDm2MMQlCdV4P8\nG+KceeaaUQKBgBMVLMVBZVl5U62mlVN+x6+qMdkJ7wBBMdaoHy6tQWHDLmdG9fn1\nYovIzP/QPFmVeBQiXCx+a89UU2e8NxES0ISW3bzPKpXRLoBHp8L7VzwQkzfXEBwU\nj5Zuk9p0QGZDIopv5STWqeH8jRY+q82Z3KlvwpTLOMKyrSa+Z4vE/V1xAoGAX7km\nPLxP2Zot1v6rFsxslVEAWQGlSzMVPWL34akQVFpu6xf7UTvKl8vyFZaeT5YB0L9L\nC+b2KwB70NN3+gq8i00ztD+7c8RQyb3YGFWTwZLhAzGZnkvoSDmogMkpwnhHZOXj\nXvFpZRSrtC4tH25aPNf9KsRsaXEuVYsH5ZNrs1ECgYBRV9viNtQbGiSx8xmlwYwZ\nDmL8wYLgN8s9URzvYv5nfG/XaASK2qrH57ch+BbKTjvHu0CKBoq53uszxX4aIes5\nF1Ex5DYUaJCf+Tx/blIvGuZxKoX5nNFlxjyyv0x4ES8PvzuUoIBqDG1doU1NzQep\naYj9YTCWQzd7XB3X1rngDQ==\n-----END PRIVATE KEY-----\n",
-    client_email: "cromona-mvp@cromona-mvp.iam.gserviceaccount.com",
-    client_id: "112712058256833614076",
-    auth_uri: "https://accounts.google.com/o/oauth2/auth",
-    token_uri: "https://oauth2.googleapis.com/token",
-    auth_provider_x509_cert_url: "https://www.googleapis.com/oauth2/v1/certs",
-    client_x509_cert_url: "https://www.googleapis.com/robot/v1/metadata/x509/cromona-mvp%40cromona-mvp.iam.gserviceaccount.com"
-  }
-  
 const stickers = [
     "Colombia Un país mega diverso [1 Cerros de Mavecure]",
-    "Colombia Un país mega diverso [2 Colombia, segundo país en plantas]",
-    "Colombia Un país mega diverso [3 Colombia, primer país en aves y orquídeas]",
+"Colombia Un país mega diverso [2 Colombia, segundo país en plantas]",
+"Colombia Un país mega diverso [3 Colombia, primer país en aves y orquídeas]",
 "Colombia Un país mega diverso [4 Colombia, tercer país en palmas y reptiles]",
 "Aventura marina [5 Avistamiento de ballenas]",
 "Aventura marina [6 Tiburón ballena]",
@@ -224,75 +207,45 @@ const stickers = [
 "Aventura en los bosques [207 Hongos de copa rosada]",
 "Aventura en los bosques [208 Río Atrato]",
 "Aventura en los bosques [209 Águila arpía]",
-    "Aventura en los bosques [210 Marimondas]",
-    "Aventura en los bosques [211 Cascada El Tulipo]",
-    "Aventura en los bosques [212 Guagua]",
-    "Aventura en los bosques [213 Camino de Lengerke Zapatoca-San Vicente del Chucurrí]",
-    "Aventura en los bosques [214 Tucán pechiazul]",
-    "Aventura en los bosques [215 Armadillo de nueve bandas]",
-    "Aventura en los bosques [216 Colibrí del roble]",
-    "Aventura en los bosques [217 Cusumbo o coatí andino]",
-    "Aventura en los bosques [218 Grisón o huroncito]",
-    "Aventura en los bosques [219 Tángara encachupada]",
-    "Aventura en los bosques [220 Toche o turpial montañero]",
-    "Aventura en los bosques [221 Carriquí verdiamarillo]",
-    "Aventura en los bosques [222 Carpintero habado]",
-    "Aventura en los bosques [223 Los Estoraques]",
-    "Aventura en los bosques [224 Platanillo]",
-    "Aventura arqueológica [225 Tigrillo]",
-    "Aventura arqueológica [226 Indígenas arhuacos]",
-    "Aventura arqueológica [227 Chavarria]",
-    "Aventura arqueológica [228 Ciudad perdida o Teyuna]",
-    "Aventura arqueológica [229 Indígenas kogui]",
-    "Aventura arqueológica [230 Sendero en piedra]",
-    "Aventura arqueológica [231 Puerco espín]",
-    "Aventura arqueológica [232 Murciélagos en Chiribiquete]",
-    "Aventura arqueológica [233 Pictografías de Chiribiquete]",
-    "Aventura arqueológica [234 Imponentes tepuyes]",
-    "Aventura arqueológica [235 Río de varios colores]",
-    "Aventura arqueológica [236 Colibrí esmeralda]",
-    "Aventura arqueológica [237 Mariposa]",
-    "Aventura arqueológica [238 Jaguar]",
-    "Aventura arqueológica [239 Estrecho del Magdalena]",
-    "Aventura arqueológica [240 Museo Arqueológico de San Agustín]",
-    "Aventura arqueológica [241 Cascada de los Bordones]",
-    "Aventura arqueológica [242 Búho rayado]",
-    "Aventura arqueológica [243 Parque Arqueológico Alto de los Ídolos y Alto de las Piedras]",
-    "Aventura arqueológica [244 Fuente de Lavapatas]",
-    "Aventura arqueológica [245 Guatín o ñeque]",
-    "Aventura arqueológica [246 Figura del águila]",
-    "Aventura arqueológica [247 Pinturas en los hipogeos]",
-    "Aventura arqueológica [248 Escaleras de los hipogeos]",
-    "Aventura arqueológica [249 Hipogeos]",
-    "Aventura arqueológica [250 Urna funeraria]",
-];
-
-const connectSpreadsheet = async () => {
-    try {
-
-        const doc = new GoogleSpreadsheet(SHEET_ID);
-
-        await doc.useServiceAccountAuth(credentials)
-
-        await doc.loadInfo();
-        const sheet = doc.sheetsByIndex[0];
-        const table = await sheet.getRows()
-        
-        const phoneNumbers = table.map( (row) => {
-            return row["Número de whatsapp"]
-        });
-        
-        const rawNames = table.map( (row) => {
-            return row["Nombre"]
-        });
-
-        console.log(Object.keys(table[0]));
-
-    } catch (e) {
-        console.log(e);
-    }
-}
-
-module.exports = {
-    connectSpreadsheet,
-}
+"Aventura en los bosques [210 Marimondas]",
+"Aventura en los bosques [211 Cascada El Tulipo]",
+"Aventura en los bosques [212 Guagua]",
+"Aventura en los bosques [213 Camino de Lengerke Zapatoca-San Vicente del Chucurrí]",
+"Aventura en los bosques [214 Tucán pechiazul]",
+"Aventura en los bosques [215 Armadillo de nueve bandas]",
+"Aventura en los bosques [216 Colibrí del roble]",
+"Aventura en los bosques [217 Cusumbo o coatí andino]",
+"Aventura en los bosques [218 Grisón o huroncito]",
+"Aventura en los bosques [219 Tángara encachupada]",
+"Aventura en los bosques [220 Toche o turpial montañero]",
+"Aventura en los bosques [221 Carriquí verdiamarillo]",
+"Aventura en los bosques [222 Carpintero habado]",
+"Aventura en los bosques [223 Los Estoraques]",
+"Aventura en los bosques [224 Platanillo]",
+"Aventura arqueológica [225 Tigrillo]",
+"Aventura arqueológica [226 Indígenas arhuacos]",
+"Aventura arqueológica [227 Chavarria]",
+"Aventura arqueológica [228 Ciudad perdida o Teyuna]",
+"Aventura arqueológica [229 Indígenas kogui]",
+"Aventura arqueológica [230 Sendero en piedra]",
+"Aventura arqueológica [231 Puerco espín]",
+"Aventura arqueológica [232 Murciélagos en Chiribiquete]",
+"Aventura arqueológica [233 Pictografías de Chiribiquete]",
+"Aventura arqueológica [234 Imponentes tepuyes]",
+"Aventura arqueológica [235 Río de varios colores]",
+"Aventura arqueológica [236 Colibrí esmeralda]",
+"Aventura arqueológica [237 Mariposa]",
+"Aventura arqueológica [238 Jaguar]",
+"Aventura arqueológica [239 Estrecho del Magdalena]",
+"Aventura arqueológica [240 Museo Arqueológico de San Agustín]",
+"Aventura arqueológica [241 Cascada de los Bordones]",
+"Aventura arqueológica [242 Búho rayado]",
+"Aventura arqueológica [243 Parque Arqueológico Alto de los Ídolos y Alto de las Piedras]",
+"Aventura arqueológica [244 Fuente de Lavapatas]",
+"Aventura arqueológica [245 Guatín o ñeque]",
+"Aventura arqueológica [246 Figura del águila]",
+"Aventura arqueológica [247 Pinturas en los hipogeos]",
+"Aventura arqueológica [248 Escaleras de los hipogeos]",
+"Aventura arqueológica [249 Hipogeos]",
+"Aventura arqueológica [250 Urna funeraria]",
+]

@@ -8,7 +8,7 @@ const connect = () => {
     error(err);
   });
   const db = mongoose.connection;
-  db.once('open', () => log(`Connection success [Mongo] ${MONGO_URI}`));
+  db.once('open', () => log('Connection success [Mongo]'));
   return db;
 };
 
