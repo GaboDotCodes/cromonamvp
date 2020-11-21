@@ -1,12 +1,14 @@
 const express = require('express');
+const { isMobilePhone } = require('validator')
 
 const { connect } = require('./db/connect');
+const User = require('./db/schemas/User');
 
 const { log, error } = console;
 
 const { PORT } = process.env;
 
-connect();
+// connect();
 const app = express();
 
 const {
@@ -17,16 +19,20 @@ const {
   isRegistered,
 } = require('./utils/spreadsheet');
 
+app.use(express.json());
+
 app.post('/login', async (req, res) => {
   try {
-    const phoneNumber = "3017014708"
-
-    if(!(await isRegistered(phoneNumber))) throw new Error({ code: 300, errorMessage: 'No registrado'})
-    res.json(phoneNumber)
+    const { phoneNumber } = req.body;
+    if(!(isMobilePhone(phoneNumber, ['es-CO']) )) throw 'Is not a phone number'
+    if(!(await isRegistered(phoneNumber))) throw 'Not registered'
+    const code = Math.round(Math.random()*999999).toString().padStart(6,"0");
+    await User.updateOne({ phoneNumber }, { phoneNumber, codeInfo: { code, generatedAt: Date.now() } }, { upsert: true });
+    
+    res.json("OK")
   } catch (e) {
     error(e);
-    const { code, errorMessage } = e;
-    res.status(code).send({ errorMessage });
+    res.json(e);
   }
   
 });

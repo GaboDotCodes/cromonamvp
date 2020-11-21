@@ -1,10 +1,20 @@
 const { Schema, model } = require('mongoose');
 const { isMobilePhone } = require('validator');
 
+const validatePhone = (detail) => isMobilePhone(detail, ['es-CO']),
+
 const urlSchema = new Schema({
     phoneNumber: {
         type: String,
-        validate: isMobilePhone(detail, ['es-CO']),
+        validate: validatePhone,
+    },
+    codeInfo:{
+        code: {
+            type: String
+        },
+        generatedAt: {
+            type: Date,
+        }
     },
     location: {
         lat: {
