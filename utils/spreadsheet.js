@@ -1,6 +1,6 @@
 const { GoogleSpreadsheet } = require('google-spreadsheet');
 
-const { SHEET_ID, GOOGLE_API_KEY } = process.env;
+const { SHEET_ID } = process.env;
 
 const credentials = {
   type: 'service_account',
