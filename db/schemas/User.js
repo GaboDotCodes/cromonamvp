@@ -7,7 +7,14 @@ const urlSchema = new Schema({
         validate: isMobilePhone(detail, ['es-CO']),
     },
     location: {
-        type: String,
+        lat: {
+            type: Number,
+            required: true,
+        },
+        lon:{
+            type: Number,
+            required: true,
+        },
         required: true,
     }
 });
