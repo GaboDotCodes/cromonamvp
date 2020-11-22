@@ -1,9 +1,9 @@
 const { Schema, model } = require('mongoose');
 const { isMobilePhone } = require('validator');
 
-const validatePhone = (detail) => isMobilePhone(detail, ['es-CO']),
+const validatePhone = (detail) => isMobilePhone(detail, ['es-CO']);
 
-const urlSchema = new Schema({
+const userSchema = new Schema({
     phoneNumber: {
         type: String,
         validate: validatePhone,
@@ -19,14 +19,11 @@ const urlSchema = new Schema({
     location: {
         lat: {
             type: Number,
-            required: true,
         },
         lon:{
             type: Number,
-            required: true,
         },
-        required: true,
     }
 });
 
-module.exports = model('User', urlSchema);
+module.exports = model('User', userSchema);

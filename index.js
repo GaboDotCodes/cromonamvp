@@ -8,7 +8,7 @@ const { log, error } = console;
 
 const { PORT } = process.env;
 
-// connect();
+connect();
 const app = express();
 
 const {
