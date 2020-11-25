@@ -3,4 +3,4 @@ const generateWhatsappLink = (phoneNumber, message, countryCode = '57') => {
     return link;
 };
 
-module.exports = generateWhatsappLink;
+module.exports = { generateWhatsappLink };
