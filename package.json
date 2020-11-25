@@ -29,7 +29,9 @@
   "dependencies": {
     "express": "^4.17.1",
     "google-spreadsheet": "^3.0.13",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.10.14",
+    "node-fetch": "^2.6.1",
     "validator": "^13.1.17"
   }
 }
