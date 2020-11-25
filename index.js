@@ -121,10 +121,10 @@ app.get('/getswaps/:phoneNumber', async (req, res) => {
       const message = `¡Hola ${anyName}!
 Soy ${myName} y podemos intercambiar con *Cromona*.
 
-Tengo estas laminas para ti
+Tengo estas láminas para tí
 ${usefulToAny.join(', ')}
 
-Tu tienes estas laminas que me sirven
+Tú tienes estas láminas que me sirven
 ${usefulToMe.join(', ')}`
       const whatsappLink = generateWhatsappLink(anyPhoneNumber, message);
 
