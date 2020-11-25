@@ -1,5 +1,7 @@
 const { GoogleSpreadsheet } = require('google-spreadsheet');
 
+const { capName } = require('./capName');
+
 const { SHEET_ID } = process.env;
 
 const credentials = {
@@ -40,6 +42,12 @@ const rawNames = async () => {
   return table.map((row) => row['Nombre']);
 };
 
+const names = async () => {
+  const rawNamesFromTable = await rawNames();
+  const namesToReturn = rawNamesFromTable.map((name) => capName(name) );
+  return namesToReturn;
+};
+
 const stickersTitles = async () => {
   const table = await spreadsheetData();
   const firstSticker = 'Colombia Un país mega diverso [1 Cerros de Mavecure]';
@@ -60,6 +68,19 @@ const collectionByPhone = async (phoneNumber) => {
   return collection;
 };
 
+const rawNameByPhone = async (phoneNumber) => {
+  const names = await rawNames();
+  const phones = await phoneNumbers();
+  const userIndex = phones.indexOf(phoneNumber);
+  const rawName = names[userIndex];
+  return rawName;
+};
+
+const nameByPhone = async (phoneNumber) => {
+  const rawName = await rawNameByPhone(phoneNumber);
+  return capName(rawName);
+};
+
 const isRegistered = async (phoneNumber) => {
   const phones = await phoneNumbers();
   return phones.includes(phoneNumber);
@@ -67,8 +88,8 @@ const isRegistered = async (phoneNumber) => {
 
 module.exports = {
   phoneNumbers,
-  rawNames,
-  stickersTitles,
+  nameByPhone,
+  names,
   collectionByPhone,
   isRegistered,
 };
