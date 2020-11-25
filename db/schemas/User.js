@@ -23,7 +23,11 @@ const userSchema = new Schema({
         lon:{
             type: Number,
         },
-    }
+    },
+    verified: {
+        type: Boolean,
+        default: false,
+    },
 });
 
-module.exports = model('User', userSchema);
+module.exports = { User: model('User', userSchema)};
