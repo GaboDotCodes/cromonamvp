@@ -68,24 +68,23 @@ app.post('/verifycode', async (req, res) => {
   try {
     const { phoneNumber, code, lat, lon } = req.body;
     if (!(isMobilePhone(phoneNumber, ['es-CO']))) throw 'Is not a phone number'
-    const user = await User.findOne({ phoneNumber });
-    await User.updateOne({ phoneNumber }, { verified: true, codeInfo: undefined });
+    if (code.length !== 4) throw 'Wrong code length'
     if (!lat && !lon) throw 'Missing GPS'
-    await User.updateOne({ phoneNumber }, { location: { lat, lon } });
+    const user = await User.findOne({ phoneNumber });
     if (!user) throw 'Login first'
+    const codedb = user.codeInfo.code;
+    if (code !== codedb) throw 'Wrong code'
     const loginMoment = user.codeInfo.generatedAt;
     if ((Date.now() - loginMoment) > 600000) throw 'Too late'
-    const codedb = user.codeInfo.code;
-    if (code.length !== 4) throw 'Wrong code length'
-    if (code !== codedb) throw 'Wrong code'
     const payload = { phoneNumber };
     const token = jwt.sign(payload, JWT_SECRET, {
       expiresIn: 1440
     });
+    await User.updateOne({ phoneNumber }, { location: { lat, lon }, verified: true, codeInfo: undefined });
     res.json({ token });
   } catch (e) {
     error(e);
-    res.json(e);
+    res.status(400).json(e);
   }
 });
 
