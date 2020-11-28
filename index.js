@@ -115,6 +115,8 @@ app.get('/getswaps/:phoneNumber', async (req, res) => {
       const { usefulToMeIndexes, usefulToAnyIndexes, amountSwaps } = compareCollections(myCollection, anyCollection);
       const usefulToMe = usefulToMeIndexes.map(usefulToMeIndex => usefulToMeIndex + 1);
       const usefulToAny = usefulToAnyIndexes.map(usefulToAnyIndex => usefulToAnyIndex + 1);
+      const usefulToMeTxt = usefulToMe.join(', ');
+      const usefulToAnyTxt = usefulToAny.join(', ');
       const distance = distanceAB(lat, lon, anyLat, anyLon)
       const anyName = allNames[index];
       const message = `¡Hola ${anyName}!
@@ -127,7 +129,7 @@ Tú tienes estas láminas que me sirven
 ${usefulToMe.join(', ')}`
       const whatsappLink = generateWhatsappLink(anyPhoneNumber, message);
 
-      return { anyName, distance, amountSwaps, usefulToMe, usefulToAny, whatsappLink }
+      return { anyName, distance, amountSwaps, usefulToMe, usefulToMeTxt, usefulToAny, usefulToAnyTxt, whatsappLink }
     }).filter((detail) => (detail.distance < parseInt(RATIO_DISTANCE) && detail.amountSwaps >= 1));
 
     if (rawSwaps.length === 0) res.json({ swaps: [] })
@@ -136,8 +138,8 @@ ${usefulToMe.join(', ')}`
     const allLinks = await Promise.all(promisesLinks);
 
     const swaps = rawSwaps.map((rawSwap, index) => {
-      const { anyName, distance, amountSwaps, usefulToMe, usefulToAny } = rawSwap
-      return { anyName, distance, amountSwaps, usefulToMe, usefulToAny, link: allLinks[index] }
+      const { anyName, distance, amountSwaps, usefulToMe, usefulToMeTxt, usefulToAny, usefulToAnyTxt } = rawSwap
+      return { anyName, distance, amountSwaps, usefulToMe, usefulToMeTxt, usefulToAny, usefulToAnyTxt, link: allLinks[index] }
     });
 
     swaps.sort(sortByAmountSwaps);
