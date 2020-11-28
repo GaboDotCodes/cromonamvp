@@ -47,9 +47,9 @@ app.use((req, res, next) => {
   next();
 });
 
-app.post('/login', async (req, res) => {
+app.get('/login/:phoneNumber', async (req, res) => {
   try {
-    const { phoneNumber } = req.body;
+    const { phoneNumber } = req.params;
     if (!(isMobilePhone(phoneNumber, ['es-CO']))) throw 'Is not a phone number'
     if (!(await isRegistered(phoneNumber))) throw 'Not registered'
     const code = Math.round(Math.random() * 9999).toString().padStart(4, "0");
