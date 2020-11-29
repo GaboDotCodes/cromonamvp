@@ -88,10 +88,10 @@ app.post('/verifycode', async (req, res) => {
   }
 });
 
-app.get('/getswaps/:phoneNumber', async (req, res) => {
+app.get('/getswaps', async (req, res) => {
   try {
     const token = req.headers['access-token'];
-    const { phoneNumber } = req.params;
+    const { phoneNumber, lat, lon } = req.query;
     if (!token) throw 'Token not found'
     jwt.verify(token, JWT_SECRET, (err, decoded) => {
       if (err) throw 'Invalid token'
@@ -99,7 +99,6 @@ app.get('/getswaps/:phoneNumber', async (req, res) => {
     });
     const myCollection = await collectionByPhone(phoneNumber);
     const myName = await nameByPhone(phoneNumber);
-    const { lat, lon } = req.query;
     await User.updateOne({ phoneNumber }, { location: { lat, lon } });
     const users = await User.find({ verified: true });
 
