@@ -91,7 +91,7 @@ app.post('/verifycode', async (req, res) => {
 app.get('/getswaps', async (req, res) => {
   try {
     const token = req.headers.authorization;
-    const { phoneNumber, lat, lon, token } = req.query;
+    const { phoneNumber, lat, lon } = req.query;
     if (!token) throw 'Token not found'
     jwt.verify(token, JWT_SECRET, (err, decoded) => {
       if (err) throw 'Invalid token'
