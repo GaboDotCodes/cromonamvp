@@ -131,7 +131,10 @@ ${usefulToMe.join(', ')}`
       return { anyName, distance, amountSwaps, usefulToMe, usefulToMeTxt, usefulToAny, usefulToAnyTxt, whatsappLink }
     }).filter((detail) => (detail.distance < parseInt(RATIO_DISTANCE) && detail.amountSwaps >= 1));
 
-    if (rawSwaps.length === 0) res.json({ swaps: [] })
+    if (rawSwaps.length === 0){
+      res.json({ swaps: [] })
+      return
+    }
 
     const promisesLinks = rawSwaps.map(async (swap) => shortUrl(swap.whatsappLink));
     const allLinks = await Promise.all(promisesLinks);
