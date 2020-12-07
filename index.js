@@ -69,9 +69,9 @@ app.post('/verifycode', async (req, res) => {
     const { phoneNumber, code, lat, lon } = req.body;
     if (!(isMobilePhone(phoneNumber, ['es-CO']))) throw 'Ingrese un número de whatsapp válido'
     if (code.length !== 4) throw 'El código debe ser de 4 dígitos'
-    if (!lat && !lon) throw 'Por favor de permisos de ubicación, usaremos su ubicación para encontrar los intercambios más cercanos'
     const user = await User.findOne({ phoneNumber });
     if (!user) throw 'Inicie sesión primero'
+    if ((!lat && !lon) && !user.location) throw 'Por favor de permisos de ubicación, usaremos su ubicación para encontrar los intercambios más cercanos'
     const codedb = user.codeInfo.code;
     if (code !== codedb) throw 'Código incorrecto'
     const loginMoment = user.codeInfo.generatedAt;
