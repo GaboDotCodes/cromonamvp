@@ -51,7 +51,7 @@ app.get('/login/:phoneNumber', async (req, res) => {
   try {
     const { phoneNumber } = req.params;
     if (!(isMobilePhone(phoneNumber, ['es-CO']))) throw 'Ingresa un número de Whatsapp válido'
-    if (!(await isRegistered(phoneNumber))) throw 'Not registered'
+    if (!(await isRegistered(phoneNumber))) throw 'Aún no estás registrado, registrate aquí y termina de llenar tu álbum con Cromona'
     const code = Math.round(Math.random() * 9999).toString().padStart(4, "0");
     await User.updateOne({ phoneNumber }, { phoneNumber, codeInfo: { code, generatedAt: Date.now() } }, { upsert: true });
     const longUrl = generateWhatsappLink(phoneNumber, `${code} es tú código para Cromona.co`, '57');
