@@ -42,6 +42,11 @@ const rawNames = async () => {
   return table.map((row) => row['Nombre']);
 };
 
+const rawLocations = async () => {
+  const table = await spreadsheetData();
+  return table.map((row) => row['Dirección, Ciudad']);
+};
+
 const names = async () => {
   const rawNamesFromTable = await rawNames();
   const namesToReturn = rawNamesFromTable.map((name) => capName(name) );
@@ -89,6 +94,7 @@ const isRegistered = async (phoneNumber) => {
 module.exports = {
   phoneNumbers,
   nameByPhone,
+  rawLocations,
   names,
   collectionByPhone,
   isRegistered,

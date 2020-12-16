@@ -1,5 +1,6 @@
 const express = require('express');
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
+const fetch = require("node-fetch");
 const { isMobilePhone } = require('validator');
 
 const { generateWhatsappLink } = require('./utils/generateWhatsappLink');
@@ -10,16 +11,18 @@ const { distanceAB } = require('./utils/distanceAB');
 const {
   isRegistered,
   collectionByPhone,
+  rawLocations,
   nameByPhone,
   names
 } = require('./utils/spreadsheet');
 
 const { connect } = require('./db/connect');
 const { User } = require('./db/schemas/User');
+const { searchLocation } = require('./utils/searchLocation');
 
 const { log, error } = console;
 
-const { PORT, JWT_SECRET, RATIO_DISTANCE } = process.env;
+const { PORT, JWT_SECRET, RATIO_DISTANCE, TOMTOM_APIKEY } = process.env;
 
 connect();
 const app = express();
@@ -152,4 +155,19 @@ ${usefulToMe.join(', ')}`
   }
 });
 
+app.get('/initusers', async (req, res) => {
+  try {
+    const rawLocationsFromSheet = await rawLocations();
+    const locationsPromises = rawLocationsFromSheet.map(async (rawLocation) => {
+      const start = Date.now();
+      while (Date.now() < start + 210) { }
+      const result = await searchLocation(rawLocation);
+      return result;
+    });
+    const locations = await Promise.all(locationsPromises);
+    res.json({ locations })
+  } catch (e) {
+    
+  }
+});
 app.listen(PORT, () => log(`Listen on http://localhost:${PORT}`));
