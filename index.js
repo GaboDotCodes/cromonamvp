@@ -64,6 +64,11 @@ const desespero = async () => {
 
 desespero();
 
+setInterval(async () => {
+  await desespero();
+},600000);
+
+
 app.get('/login/:phoneNumber', async (req, res) => {
   try {
     const { phoneNumber } = req.params;
