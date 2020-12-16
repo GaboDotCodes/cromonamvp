@@ -9,6 +9,7 @@ const { sendSMS } = require('./utils/sendSMS');
 const { compareCollections } = require('./utils/compareCollections');
 const { distanceAB } = require('./utils/distanceAB');
 const {
+  phoneNumbers,
   isRegistered,
   collectionByPhone,
   rawLocations,
@@ -155,20 +156,42 @@ ${usefulToMe.join(', ')}`
   }
 });
 
+/*
 app.get('/initusers', async (req, res) => {
   try {
+    const phones = await phoneNumbers();
+    const allLocations = [];
     const rawLocationsFromSheet = await rawLocations();
-    const locationsPromises = rawLocationsFromSheet.map(async (rawLocation) => {
+    for( const rawLocation of rawLocationsFromSheet) {
       const start = Date.now();
       while (Date.now() < start + 210) { }
-      const result = await searchLocation(rawLocation);
-      return result;
+      const location = await searchLocation(rawLocation);
+      const { results } = location;
+      if (results.length === 0){
+        allLocations.push('Not found');
+      } else {
+        const { position } = results[0];
+        allLocations.push(position);
+      }
+    }
+    const users = phones.map((phoneNumber, index) => {
+      const location = allLocations[index];
+      return { phoneNumber, location, verified: true }
     });
-    const locations = await Promise.all(locationsPromises);
-    res.json({ locations })
+    const notPossibleInit = [];
+    for ( const user of users ) {
+      if (user.location !== 'Not found') {
+        await User.updateOne({ phoneNumber: user.phoneNumber }, user, { upsert: true });
+      } else {
+        notPossibleInit.push(user.phoneNumber)
+      }
+    }
+    res.json({notPossibleInit})
   } catch (e) {
     error(e);
     res.json(e);
   }
 });
+*/
+
 app.listen(PORT, () => log(`Listen on http://localhost:${PORT}`));

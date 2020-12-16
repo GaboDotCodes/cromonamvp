@@ -10,7 +10,8 @@ const searchLocation = async (rawLocation) => {
         }
       }
       const response = await fetch(`https://api.tomtom.com/search/2/search/${encodeURI(rawLocation)}.json?typeahead=true&limit=1&countrySet=CO&language=es-419&idxSet=Geo&key=${TOMTOM_APIKEY}`, options);
-    return response.json();
+      const dataToReturn = await response.json();
+    return dataToReturn;
 };
 
 module.exports = { searchLocation };
