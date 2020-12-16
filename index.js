@@ -167,7 +167,8 @@ app.get('/initusers', async (req, res) => {
     const locations = await Promise.all(locationsPromises);
     res.json({ locations })
   } catch (e) {
-    
+    error(e);
+    res.json(e);
   }
 });
 app.listen(PORT, () => log(`Listen on http://localhost:${PORT}`));
