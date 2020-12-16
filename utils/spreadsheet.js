@@ -32,18 +32,18 @@ const spreadsheetData = async () => {
   }
 };
 
-const phoneNumbers = async () => {
-  const table = await spreadsheetData();
+const phoneNumbers = async (table) => {
+  // const table = await spreadsheetData();
   return table.map((row) => row['Número de whatsapp']);
 };
 
-const rawNames = async () => {
-  const table = await spreadsheetData();
+const rawNames = async (table) => {
+  // const table = await spreadsheetData();
   return table.map((row) => row['Nombre']);
 };
 
-const rawLocations = async () => {
-  const table = await spreadsheetData();
+const rawLocations = async (table) => {
+  // const table = await spreadsheetData();
   return table.map((row) => row['Dirección, Ciudad']);
 };
 
@@ -53,8 +53,8 @@ const names = async () => {
   return namesToReturn;
 };
 
-const stickersTitles = async () => {
-  const table = await spreadsheetData();
+const stickersTitles = async (table) => {
+  // const table = await spreadsheetData();
   const firstSticker = 'Colombia Un país mega diverso [1 Cerros de Mavecure]';
   const indexFirstSticker = Object.keys(table[0]).indexOf(firstSticker);
   const lastSticker = 'Aventura arqueológica [250 Urna funeraria]';
@@ -63,35 +63,36 @@ const stickersTitles = async () => {
   return titles;
 };
 
-const collectionByPhone = async (phoneNumber) => {
-  const table = await spreadsheetData();
-  const phones = await phoneNumbers();
-  const stickers = await stickersTitles();
+const collectionByPhone = async (table, phoneNumber) => {
+  // const table = await spreadsheetData();
+  const phones = await phoneNumbers(table);
+  const stickers = await stickersTitles(table);
   const userIndex = phones.indexOf(phoneNumber);
   const userRow = table[userIndex];
   const collection = stickers.map((sticker) => userRow[sticker]);
   return collection;
 };
 
-const rawNameByPhone = async (phoneNumber) => {
-  const names = await rawNames();
-  const phones = await phoneNumbers();
+const rawNameByPhone = async (table, phoneNumber) => {
+  const names = await rawNames(table);
+  const phones = await phoneNumbers(table);
   const userIndex = phones.indexOf(phoneNumber);
   const rawName = names[userIndex];
   return rawName;
 };
 
-const nameByPhone = async (phoneNumber) => {
-  const rawName = await rawNameByPhone(phoneNumber);
+const nameByPhone = async (table, phoneNumber) => {
+  const rawName = await rawNameByPhone(table, phoneNumber);
   return capName(rawName);
 };
 
-const isRegistered = async (phoneNumber) => {
-  const phones = await phoneNumbers();
+const isRegistered = async (table, phoneNumber) => {
+  const phones = await phoneNumbers(table);
   return phones.includes(phoneNumber);
 };
 
 module.exports = {
+  spreadsheetData,
   phoneNumbers,
   nameByPhone,
   rawLocations,

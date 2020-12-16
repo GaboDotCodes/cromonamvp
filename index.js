@@ -9,12 +9,12 @@ const { sendSMS } = require('./utils/sendSMS');
 const { compareCollections } = require('./utils/compareCollections');
 const { distanceAB } = require('./utils/distanceAB');
 const {
+  spreadsheetData,
   phoneNumbers,
   isRegistered,
   collectionByPhone,
   rawLocations,
-  nameByPhone,
-  names
+  nameByPhone
 } = require('./utils/spreadsheet');
 
 const { connect } = require('./db/connect');
@@ -51,11 +51,24 @@ app.use((req, res, next) => {
   next();
 });
 
+let table;
+
+const desespero = async () => {
+  try {
+    table = await spreadsheetData();
+    log('Data ready');
+  } catch (e) {
+    log(e);
+  }
+}
+
+desespero();
+
 app.get('/login/:phoneNumber', async (req, res) => {
   try {
     const { phoneNumber } = req.params;
     if (!(isMobilePhone(phoneNumber, ['es-CO']))) throw 'Ingresa un número de Whatsapp válido'
-    if (!(await isRegistered(phoneNumber))) throw 'Aún no estás registrado, registrate aquí y termina de llenar tu álbum con Cromona'
+    if (!(await isRegistered(table, phoneNumber))) throw 'Aún no estás registrado, registrate aquí y termina de llenar tu álbum con Cromona'
     const code = Math.round(Math.random() * 9999).toString().padStart(4, "0");
     await User.updateOne({ phoneNumber }, { phoneNumber, codeInfo: { code, generatedAt: Date.now() } }, { upsert: true });
     const longUrl = generateWhatsappLink(phoneNumber, `${code} es tú código para Cromona.co`, '57');
@@ -101,14 +114,14 @@ app.get('/getswaps', async (req, res) => {
       if (err) throw 'Invalid token'
       if (decoded.phoneNumber !== phoneNumber) throw 'Do not change the phonenumber'
     });
-    const myCollection = await collectionByPhone(phoneNumber);
-    const myName = await nameByPhone(phoneNumber);
+    const myCollection = await collectionByPhone(table, phoneNumber);
+    const myName = await nameByPhone(table, phoneNumber);
     await User.updateOne({ phoneNumber }, { location: { lat, lon } });
     const users = await User.find({ verified: true });
 
-    const promisesCollections = users.map(async (user) => collectionByPhone(user.phoneNumber));
+    const promisesCollections = users.map(async (user) => collectionByPhone(table, user.phoneNumber));
     const allCollections = await Promise.all(promisesCollections);
-    const promisesNames = users.map(async (user) => nameByPhone(user.phoneNumber));
+    const promisesNames = users.map(async (user) => nameByPhone(table, user.phoneNumber));
     const allNames = await Promise.all(promisesNames);
 
     const rawSwaps = users.map((user, index) => {
@@ -156,12 +169,12 @@ ${usefulToMe.join(', ')}`
   }
 });
 
-/*
+
 app.get('/initusers', async (req, res) => {
   try {
-    const phones = await phoneNumbers();
+    const phones = await phoneNumbers(table);
     const allLocations = [];
-    const rawLocationsFromSheet = await rawLocations();
+    const rawLocationsFromSheet = await rawLocations(table);
     for( const rawLocation of rawLocationsFromSheet) {
       const start = Date.now();
       while (Date.now() < start + 210) { }
@@ -192,6 +205,6 @@ app.get('/initusers', async (req, res) => {
     res.json(e);
   }
 });
-*/
+
 
 app.listen(PORT, () => log(`Listen on http://localhost:${PORT}`));
