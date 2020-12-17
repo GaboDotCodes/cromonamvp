@@ -171,6 +171,7 @@ ${usefulToMe.join(', ')}`
     });
 
     swaps.sort(sortByAmountSwaps);
+    log(`${phoneNumber}: amount of swaps: ${swaps.length}`)
     res.json({ swaps: swaps });
   } catch (e) {
     error(e);
