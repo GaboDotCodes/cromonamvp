@@ -66,7 +66,7 @@ desespero();
 
 setInterval(async () => {
   await desespero();
-}, 300000);
+}, 5000);
 
 
 app.get('/login/:phoneNumber', async (req, res) => {
