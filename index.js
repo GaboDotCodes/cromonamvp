@@ -170,7 +170,7 @@ ${usefulToMe.join(', ')}`
     res.json({ swaps: swaps });
   } catch (e) {
     error(e);
-    res.json(e);
+    res.status(400).json(e);
   }
 });
 
@@ -207,7 +207,7 @@ app.get('/initusers', async (req, res) => {
     res.json({notPossibleInit})
   } catch (e) {
     error(e);
-    res.json(e);
+    res.status(400).json(e);
   }
 });
 
