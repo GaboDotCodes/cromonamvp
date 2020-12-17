@@ -56,7 +56,6 @@ let table;
 const desespero = async () => {
   try {
     table = await spreadsheetData();
-    log('Data ready');
   } catch (e) {
     log(e);
   }
