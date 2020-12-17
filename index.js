@@ -66,7 +66,7 @@ desespero();
 
 setInterval(async () => {
   await desespero();
-},600000);
+}, 300000);
 
 
 app.get('/login/:phoneNumber', async (req, res) => {
@@ -113,15 +113,18 @@ app.post('/verifycode', async (req, res) => {
 app.get('/getswaps', async (req, res) => {
   try {
     const token = req.headers.authorization;
-    const { phoneNumber, lat, lon } = req.query;
+    const { phoneNumber, newLat, newLon } = req.query;
     if (!token) throw 'Token not found'
     jwt.verify(token, JWT_SECRET, (err, decoded) => {
       if (err) throw 'Invalid token'
       if (decoded.phoneNumber !== phoneNumber) throw 'Do not change the phonenumber'
     });
+    const user = await User.findOne({ phoneNumber });
+    const lat = newLat? newLat: user.location.lat;
+    const lon = newLon? newLon: user.location.lon;
     const myCollection = await collectionByPhone(table, phoneNumber);
     const myName = await nameByPhone(table, phoneNumber);
-    await User.updateOne({ phoneNumber }, { location: { lat, lon } });
+    await User.updateOne({ phoneNumber }, { location: { newLat, newLon } });
     const users = await User.find({ verified: true });
 
     const promisesCollections = users.map(async (user) => collectionByPhone(table, user.phoneNumber));
