@@ -116,6 +116,7 @@ app.get('/getswaps', async (req, res) => {
     const { phoneNumber, newLat, newLon } = req.query;
     if (!token) throw 'Token not found'
     jwt.verify(token, JWT_SECRET, (err, decoded) => {
+      if (err) log(err)
       if (err) throw 'Invalid token'
       if (decoded.phoneNumber !== phoneNumber) throw 'Do not change the phonenumber'
     });
