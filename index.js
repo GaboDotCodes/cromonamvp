@@ -78,6 +78,7 @@ app.get('/login/:phoneNumber', async (req, res) => {
     const longUrl = generateWhatsappLink(phoneNumber, `${code} es tú código para Cromona.co`, '57');
     const shortedUrl = await shortUrl(longUrl);
     const finish = await sendSMS(`REGISTER: ${shortedUrl}`, '3136109241');
+    log(shortedUrl)
     res.json({state: 'OK'});
   } catch (e) {
     error({state: e});
