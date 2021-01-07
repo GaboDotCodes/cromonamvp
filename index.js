@@ -155,7 +155,7 @@ ${usefulToMe.join(', ')}`
       const whatsappLink = generateWhatsappLink(anyPhoneNumber, message);
 
       return { anyName, distance, amountSwaps, usefulToMe, usefulToMeTxt, usefulToAny, usefulToAnyTxt, whatsappLink }
-    }).filter((detail) => (detail.distance < parseInt(RATIO_DISTANCE) && detail.amountSwaps >= 1));
+    }).filter((detail) => (detail.distance < parseInt(RATIO_DISTANCE) && detail.usefulToMe.length >= 1));
 
     if (rawSwaps.length === 0){
       res.json({ swaps: [] })
@@ -179,6 +179,10 @@ ${usefulToMe.join(', ')}`
   }
 });
 
+app.get('/getmissingstickers', async (req, res) => {
+  // lat long sortbydistance sortbyamount missingstickers
+  res.json
+});
 
 app.get('/initusers', async (req, res) => {
   try {
